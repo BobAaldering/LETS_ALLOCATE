@@ -9,7 +9,9 @@ set(target ALLOCATOR) # Create a name for your target.
 target_sources(${target}
         PRIVATE
         main.cpp
-        allocator.h # Include this header file, due to that is a template.
+        allocator.h # Include this header file, due to that it is a template.
+        pool_allocator.h # Include this header file, due to that it is a template.
+        stack_linked_list.h # Include this header file, due to that is is a template.
         )
 
 target_compile_features(${target} PRIVATE cxx_std_23) # We are using the newest language standards, so C++23.
