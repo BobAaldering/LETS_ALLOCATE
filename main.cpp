@@ -1,5 +1,7 @@
 #include "pool_allocator.h"
 
+#include "allocator_tester.h"
+
 int main() {
     pool_allocator<int> allocator{3};
 
@@ -19,6 +21,10 @@ int main() {
     std::cout << "Fourth value: " << fourth_value->m_data << std::endl;
 
     allocator.release_blocks();
+
+    allocator_tester::pool_validate_int();
+    allocator_tester::pool_validate_double();
+    allocator_tester::pool_validate_compound();
 
     return 0;
 }

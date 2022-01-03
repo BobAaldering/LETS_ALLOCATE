@@ -8,10 +8,16 @@ set(target ALLOCATOR) # Create a name for your target.
 # Here, you can add the files you want to add to your executable.
 target_sources(${target}
         PRIVATE
-        main.cpp
+        main.cpp # The main file of the project.
+
         allocator.h # Include this header file, due to that it is a template.
+
         pool_allocator.h # Include this header file, due to that it is a template.
-        stack_linked_list.h # Include this header file, due to that is is a template.
+        block_allocator.h # Include this header file, due to that it is a template.
+        chunk_list.h # Include this header file, due to that it is is a template.
+        malloc_allocator.h # Include this header file, due to that it is a template.
+
+        allocator_tester.cpp # The source file for the tester.
         )
 
 target_compile_features(${target} PRIVATE cxx_std_23) # We are using the newest language standards, so C++23.

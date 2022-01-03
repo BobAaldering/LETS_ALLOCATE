@@ -35,7 +35,7 @@ void block_allocator<T>::deallocate(T *memory, std::size_t number_of_elements) n
 
 template<typename T>
 void block_allocator<T>::used_memory(T *pointer_to_memory, const size_t &number_of_bytes, bool is_allocating) {
-    std::cout << (is_allocating ? "Allocated memory: " : "Deallocated memory: ")
+    std::cout << "---- ALLOCATOR MESSAGE ---- \t" << (is_allocating ? "Allocated memory: " : "Deallocated memory: ")
         << sizeof(T) * number_of_bytes << " bytes at address: " << std::hex << std::showbase << reinterpret_cast<T*>(pointer_to_memory) << std::dec << std::endl;
 }
 

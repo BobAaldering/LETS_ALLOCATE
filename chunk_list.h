@@ -78,10 +78,4 @@ void chunk_list<T>::remove_chunk_list() noexcept {
     munmap(m_begin_chunk, m_size_block); // Unmap the whole block with memory.
 }
 
-template<typename T>
-void chunk_list<T>::set_chunks_size(const std::size_t &number_of_chunks) noexcept {
-    m_number_of_chunks = number_of_chunks;
-    m_size_block = m_number_of_chunks * sizeof(chunk<T>);
-}
-
 #endif

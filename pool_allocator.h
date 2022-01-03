@@ -13,6 +13,7 @@ public:
 
     chunk<T>* get_memory() noexcept;
     void back_memory(chunk<T>* release_chunk) noexcept;
+
     void release_blocks() noexcept;
 
 private:
