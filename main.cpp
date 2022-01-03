@@ -1,29 +1,24 @@
-#include <vector>
-#include "allocator.h"
-
-// Link: https://github.com/alecbz/mmap-allocator/blob/master/mmap_allocator.h
-// Link: https://www.codetd.com/en/article/12255921
-// Link: https://en.cppreference.com/w/cpp/named_req/Allocator
+#include "pool_allocator.h"
 
 int main() {
-    std::vector<int, memory_map::allocator<int>> vector{};
-    vector.push_back(8);
-    vector.push_back(9);
-    vector.push_back(10);
-    vector.push_back(11);
-    vector.push_back(12);
+    pool_allocator<int> allocator{3};
 
-    memory_map::allocator<double> alloc{};
+    auto first_value = allocator.get_memory();
+    auto second_value = allocator.get_memory();
+    auto third_value = allocator.get_memory();
+    auto fourth_value = allocator.get_memory();
 
-    auto* mem = alloc.allocate(45);
+    first_value->m_data = 5;
+    second_value->m_data = 6;
+    third_value->m_data = 7;
+    fourth_value->m_data = 8;
 
-    for (int i = 0; i < 45; i++)
-        mem[i] = i;
+    std::cout << "First value: " << first_value->m_data << std::endl;
+    std::cout << "Second value: " << second_value->m_data << std::endl;
+    std::cout << "Third value: " << third_value->m_data << std::endl;
+    std::cout << "Fourth value: " << fourth_value->m_data << std::endl;
 
-    for (int i = 0; i < 45; i++)
-        std::cout << "Value: " << mem[i] << std::endl;
-
-    alloc.deallocate(mem, 45);
+    allocator.release_blocks();
 
     return 0;
 }

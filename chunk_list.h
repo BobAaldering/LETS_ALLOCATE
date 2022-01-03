@@ -17,10 +17,9 @@ public:
 
     chunk<T>* get_free_chunk() noexcept;
     void remove_chunk(chunk<T>* free_chunk) noexcept;
+    void remove_chunk_list() noexcept;
 
     void set_chunks_size(const std::size_t& number_of_chunks) noexcept;
-
-    ~chunk_list();
 
 private:
     chunk<T>* m_current_chunk;
@@ -52,7 +51,7 @@ chunk<T> *chunk_list<T>::get_free_chunk() noexcept {
                 m_is_allocated = true; // After this call, you will always have an initial memory block.
             }
 
-            for (std::size_t i = 0; i < m_number_of_chunks; i++) {
+            for (std::size_t i = 0; i < m_number_of_chunks - 1; i++) {
                 current_memory_element->m_next_node = reinterpret_cast<chunk<T>*>(reinterpret_cast<char*>(current_memory_element) + sizeof(chunk<T>));
                 current_memory_element = current_memory_element->m_next_node;
             }
@@ -75,13 +74,8 @@ void chunk_list<T>::remove_chunk(chunk<T> *free_chunk) noexcept {
 }
 
 template<typename T>
-chunk_list<T>::~chunk_list() {
-    auto* current_chunk = m_begin_chunk;
-    while (current_chunk != nullptr) {
-        auto* temp_chunk = current_chunk->m_next_node;
-        munmap(temp_chunk, sizeof(chunk<T>)); // Delete your 'current_chunk'.
-        current_chunk = temp_chunk;
-    }
+void chunk_list<T>::remove_chunk_list() noexcept {
+    munmap(m_begin_chunk, m_size_block); // Unmap the whole block with memory.
 }
 
 template<typename T>
