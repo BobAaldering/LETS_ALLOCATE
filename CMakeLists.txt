@@ -10,19 +10,21 @@ target_sources(${target}
         PRIVATE
         main.cpp # The main file of the project.
 
-        allocator.h # Include this header file, due to that it is a template.
+        ./inc/allocator.h # Include this header file, due to that it is a template.
 
-        pool_allocator.h # Include this header file, due to that it is a template.
-        block_allocator.h # Include this header file, due to that it is a template.
-        chunk_list.h # Include this header file, due to that it is is a template.
-        malloc_allocator.h # Include this header file, due to that it is a template.
+        ./inc/pool_allocator.h # Include this header file, due to that it is a template.
+        ./inc/block_allocator.h # Include this header file, due to that it is a template.
+        ./inc/chunk_list.h # Include this header file, due to that it is is a template.
+        ./inc/malloc_allocator.h # Include this header file, due to that it is a template.
 
-        allocator_tester.cpp # The source file for the tester.
+        ./src/allocator_tester.cpp # The source file for the tester.
 
-        allocator_benchmark.cpp # The source file for the allocation benchmark.
-        benchmark_plot_generator.cpp # The source file for the plot generator for your benchmark.
-        benchmark_statistics.cpp # The source file for the benchmark statistics.
+        ./src/allocator_benchmark.cpp # The source file for the allocation benchmark.
+        ./src/benchmark_plot_generator.cpp # The source file for the plot generator for your benchmark.
+        ./src/benchmark_statistics.cpp # The source file for the benchmark statistics.
         )
+
+include_directories(./inc) # Instruct the compiler where to look for the given header files within this project.
 
 target_compile_features(${target} PRIVATE cxx_std_23) # We are using the newest language standards, so C++23.
 set_target_properties(${target} PROPERTIES CXX_EXTENSIONS OFF) # Turn of compiler specific language extensions.
