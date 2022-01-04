@@ -50,7 +50,7 @@ void pool_allocator<T>::back_memory(chunk<T>* release_chunk) noexcept {
 
 template<typename T>
 void pool_allocator<T>::release_blocks() noexcept {
-    for (auto& single_block : m_block_list)
+    for ([[maybe_unused]] auto& single_block : m_block_list)
         single_block.remove_chunk_list();
 }
 

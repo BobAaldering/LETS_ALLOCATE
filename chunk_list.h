@@ -19,9 +19,9 @@ public:
     void remove_chunk(chunk<T>* free_chunk) noexcept;
     void remove_chunk_list() noexcept;
 
-    void set_chunks_size(const std::size_t& number_of_chunks) noexcept;
-
 private:
+    [[maybe_unused]] void used_memory(chunk<T>* pointer_to_memory, const std::size_t& number_of_bytes, bool is_allocating = true); // Used for showing messages.
+
     chunk<T>* m_current_chunk;
     chunk<T>* m_begin_chunk;
 
@@ -76,6 +76,12 @@ void chunk_list<T>::remove_chunk(chunk<T> *free_chunk) noexcept {
 template<typename T>
 void chunk_list<T>::remove_chunk_list() noexcept {
     munmap(m_begin_chunk, m_size_block); // Unmap the whole block with memory.
+}
+
+template<typename T>
+[[maybe_unused]] void chunk_list<T>::used_memory(chunk<T> *pointer_to_memory, const size_t &number_of_bytes, bool is_allocating) {
+    std::cout << "---- ALLOCATOR MESSAGE ---- \t" << (is_allocating ? "Allocated memory: " : "Deallocated memory: ")
+        << sizeof(T) * number_of_bytes << " bytes at address: " << std::hex << std::showbase << reinterpret_cast<T*>(pointer_to_memory) << std::dec << std::endl;
 }
 
 #endif

@@ -18,6 +18,10 @@ target_sources(${target}
         malloc_allocator.h # Include this header file, due to that it is a template.
 
         allocator_tester.cpp # The source file for the tester.
+
+        allocator_benchmark.cpp # The source file for the allocation benchmark.
+        benchmark_plot_generator.cpp # The source file for the plot generator for your benchmark.
+        benchmark_statistics.cpp # The source file for the benchmark statistics.
         )
 
 target_compile_features(${target} PRIVATE cxx_std_23) # We are using the newest language standards, so C++23.

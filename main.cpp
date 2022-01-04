@@ -1,6 +1,9 @@
 #include "pool_allocator.h"
+#include "malloc_allocator.h"
 
 #include "allocator_tester.h"
+#include "allocator_benchmark.h"
+#include "benchmark_plot_generator.h"
 
 int main() {
     pool_allocator<int> allocator{3};
@@ -25,6 +28,13 @@ int main() {
     allocator_tester::pool_validate_int();
     allocator_tester::pool_validate_double();
     allocator_tester::pool_validate_compound();
+
+    allocator_benchmark benchmarker{{32, 64, 128, 256, 512, 1024, 2048, 4096}};
+    auto benchmark_memory_pool = benchmarker.benchmark_memory_pool();
+    auto benchmark_memory_malloc = benchmarker.benchmark_memory_malloc();
+
+    benchmark_plot_generator plotter{benchmark_memory_pool, benchmark_memory_malloc};
+    plotter.generate_matlab_plot();
 
     return 0;
 }
