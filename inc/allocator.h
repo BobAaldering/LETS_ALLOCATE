@@ -48,7 +48,7 @@ namespace memory_map {
             if (number_of_elements > max_size())
                 throw std::bad_array_new_length();
 
-            if (auto ptr = static_cast<T*>(mmap(nullptr, number_of_elements, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0))) {
+            if (auto* ptr = reinterpret_cast<T*>(mmap(nullptr, number_of_elements * sizeof(T), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0))) {
                 used_memory_message(ptr, number_of_elements);
                 return ptr;
             }

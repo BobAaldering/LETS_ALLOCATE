@@ -1,35 +1,16 @@
-#include "pool_allocator.h"
-#include "malloc_allocator.h"
-
 #include "allocator_tester.h"
 #include "allocator_benchmark.h"
 #include "benchmark_plot_generator.h"
 
 int main() {
-    pool_allocator<int> allocator{3};
-
-    auto first_value = allocator.get_memory();
-    auto second_value = allocator.get_memory();
-    auto third_value = allocator.get_memory();
-    auto fourth_value = allocator.get_memory();
-
-    first_value->m_data = 5;
-    second_value->m_data = 6;
-    third_value->m_data = 7;
-    fourth_value->m_data = 8;
-
-    std::cout << "First value: " << first_value->m_data << std::endl;
-    std::cout << "Second value: " << second_value->m_data << std::endl;
-    std::cout << "Third value: " << third_value->m_data << std::endl;
-    std::cout << "Fourth value: " << fourth_value->m_data << std::endl;
-
-    allocator.release_blocks();
-
     allocator_tester::pool_validate_int();
     allocator_tester::pool_validate_double();
     allocator_tester::pool_validate_compound();
 
-    allocator_benchmark benchmarker{{32, 64, 128, 256, 512, 1024, 2048, 4096}};
+    // Why testing, and what is the difference? Check: https://stackoverflow.com/questions/12545044/memory-pool-vs-malloc and https://en.wikipedia.org/wiki/Memory_pool
+    // Why is programming teasing me... https://en.cppreference.com/w/cpp/memory/allocator/allocate
+
+    allocator_benchmark benchmarker{{32, 64, 128, 256, 512}, {10, 100, 1000, 10000}};
     auto benchmark_memory_pool = benchmarker.benchmark_memory_pool();
     auto benchmark_memory_malloc = benchmarker.benchmark_memory_malloc();
 

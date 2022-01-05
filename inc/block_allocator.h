@@ -18,7 +18,7 @@ private:
 
 template<typename T>
 [[maybe_unused]] T *block_allocator<T>::allocate(std::size_t number_of_elements) {
-    if (auto* allocated_memory = reinterpret_cast<T*>(mmap(nullptr, number_of_elements, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0))) {
+    if (auto* allocated_memory = reinterpret_cast<T*>(mmap(nullptr, number_of_elements * sizeof(T), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0))) {
         return allocated_memory;
     }
 

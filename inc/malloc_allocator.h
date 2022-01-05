@@ -21,7 +21,7 @@ private:
 
 template<typename T>
 malloc_allocator<T>::malloc_allocator(const size_t &number_of_elements) :
-    m_size_memory{number_of_elements * sizeof(chunk<T>)}
+    m_size_memory{number_of_elements * sizeof(int)}
 {}
 
 template<typename T>

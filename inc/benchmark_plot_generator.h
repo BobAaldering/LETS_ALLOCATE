@@ -3,6 +3,9 @@
 
 #include <fstream>
 #include <tuple>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
 
 #include "benchmark_statistics.h"
 
