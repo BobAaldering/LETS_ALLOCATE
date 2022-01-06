@@ -15,7 +15,7 @@ class chunk_list {
 public:
     explicit chunk_list(const std::size_t& number_of_chunks);
 
-    chunk<T>* get_free_chunk() noexcept;
+    chunk<T>* get_free_chunk();
     void remove_chunk(chunk<T>* free_chunk) noexcept;
     void remove_chunk_list() noexcept;
 
@@ -41,9 +41,11 @@ chunk_list<T>::chunk_list(const size_t &number_of_chunks) :
 {}
 
 template<typename T>
-chunk<T> *chunk_list<T>::get_free_chunk() noexcept {
+chunk<T> *chunk_list<T>::get_free_chunk() {
     if (m_current_chunk == nullptr) {
-        if (auto allocated_memory = reinterpret_cast<chunk<T>*>(mmap(nullptr, m_size_block, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0))) {
+        auto* allocated_memory = reinterpret_cast<chunk<T>*>(mmap(nullptr, m_size_block, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0));
+
+        if (allocated_memory != MAP_FAILED) {
             auto* current_memory_element = allocated_memory;
 
             if (!m_is_allocated) {
@@ -59,6 +61,8 @@ chunk<T> *chunk_list<T>::get_free_chunk() noexcept {
             current_memory_element->m_next_node = nullptr; // Last in the block of memory, it must be a 'nullptr'.
             m_current_chunk = allocated_memory; // First element in the allocated block of memory.
         }
+        else
+            throw std::bad_alloc();
     }
 
     auto* free_memory_chunk = m_current_chunk;

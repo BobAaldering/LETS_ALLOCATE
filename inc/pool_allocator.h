@@ -10,13 +10,14 @@ template <typename T>
 class pool_allocator {
 public:
     explicit pool_allocator(const std::size_t& chunk_per_blocks);
+    ~pool_allocator();
 
-    chunk<T>* get_memory() noexcept;
-    void back_memory(chunk<T>* release_chunk) noexcept;
-
-    void release_blocks() noexcept;
+    [[maybe_unused]] chunk<T>* allocate() noexcept;
+    [[maybe_unused]] void deallocate(chunk<T>* release_chunk) noexcept;
 
 private:
+    [[maybe_unused]] void used_memory(T* pointer_to_memory, const std::size_t& number_of_bytes, bool is_allocating = true); // Used for showing messages.
+
     std::vector<chunk_list<T>, block_allocator<chunk_list<T>>> m_block_list;
     chunk_list<T>* m_current_block;
     std::size_t m_current_chunk;
@@ -32,7 +33,13 @@ pool_allocator<T>::pool_allocator(const std::size_t &chunk_per_blocks) :
 {}
 
 template<typename T>
-chunk<T> *pool_allocator<T>::get_memory() noexcept {
+pool_allocator<T>::~pool_allocator() {
+    for ([[maybe_unused]] auto& single_block : m_block_list)
+        single_block.remove_chunk_list();
+}
+
+template<typename T>
+[[maybe_unused]] chunk<T> *pool_allocator<T>::allocate() noexcept {
     if (m_current_chunk == m_chunks_per_block) {
         m_block_list.push_back(chunk_list<T>{m_chunks_per_block});
         m_current_block = &m_block_list.back();
@@ -44,14 +51,14 @@ chunk<T> *pool_allocator<T>::get_memory() noexcept {
 }
 
 template<typename T>
-void pool_allocator<T>::back_memory(chunk<T>* release_chunk) noexcept {
+[[maybe_unused]] void pool_allocator<T>::deallocate(chunk<T>* release_chunk) noexcept {
     m_current_block->remove_chunk(release_chunk);
 }
 
 template<typename T>
-void pool_allocator<T>::release_blocks() noexcept {
-    for ([[maybe_unused]] auto& single_block : m_block_list)
-        single_block.remove_chunk_list();
+[[maybe_unused]] void pool_allocator<T>::used_memory(T *pointer_to_memory, const size_t &number_of_bytes, bool is_allocating) {
+    std::cout << "---- ALLOCATOR MESSAGE ---- \t" << (is_allocating ? "Allocated memory: " : "Deallocated memory: ")
+        << sizeof(T) * number_of_bytes << " bytes at address: " << std::hex << std::showbase << reinterpret_cast<T*>(pointer_to_memory) << std::dec << std::endl;
 }
 
 #endif

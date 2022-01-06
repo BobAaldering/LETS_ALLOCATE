@@ -9,12 +9,17 @@ int main() {
 
     // Why testing, and what is the difference? Check: https://stackoverflow.com/questions/12545044/memory-pool-vs-malloc and https://en.wikipedia.org/wiki/Memory_pool
     // Why is programming teasing me... https://en.cppreference.com/w/cpp/memory/allocator/allocate
+    // Another nice information: https://www.codetd.com/en/article/12255921 and https://blog.feabhas.com/2019/03/thanks-for-the-memory-allocator/
 
-    allocator_benchmark benchmarker{{32, 64, 128, 256, 512}, {10, 100, 1000, 10000}};
-    auto benchmark_memory_pool = benchmarker.benchmark_memory_pool();
-    auto benchmark_memory_malloc = benchmarker.benchmark_memory_malloc();
+    std::vector<benchmark_statistics> all_statistics{};
+    allocator_benchmark benchmarker{{32, 64, 128, 256, 512}, {10, 100, 1000}};
 
-    benchmark_plot_generator plotter{benchmark_memory_pool, benchmark_memory_malloc};
+    all_statistics.push_back(benchmarker.benchmark_memory_pool());
+    all_statistics.push_back(benchmarker.benchmark_memory_malloc());
+    all_statistics.push_back(benchmarker.benchmark_memory_mmap());
+    all_statistics.push_back(benchmarker.benchmark_memory_new());
+
+    benchmark_plot_generator plotter{all_statistics};
     plotter.generate_matlab_plot();
 
     return 0;

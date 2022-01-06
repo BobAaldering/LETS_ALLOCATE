@@ -9,8 +9,8 @@
 
 #include "pool_allocator.h"
 #include "malloc_allocator.h"
-
-#include "allocator.h"
+#include "mmap_allocator.h"
+#include "new_allocator.h"
 
 #include "benchmark_statistics.h"
 
@@ -37,6 +37,8 @@ public:
 
     [[nodiscard]] benchmark_statistics benchmark_memory_pool() const;
     [[nodiscard]] benchmark_statistics benchmark_memory_malloc() const;
+    [[nodiscard]] benchmark_statistics benchmark_memory_mmap() const;
+    [[nodiscard]] benchmark_statistics benchmark_memory_new() const;
 
 private:
     std::vector<std::size_t> m_number_of_runs;

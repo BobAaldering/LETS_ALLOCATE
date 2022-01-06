@@ -1,8 +1,7 @@
 #include "benchmark_plot_generator.h"
 
-benchmark_plot_generator::benchmark_plot_generator(benchmark_statistics pool_statistics, benchmark_statistics malloc_statistics) :
-    m_pool_statistic{std::move(pool_statistics)},
-    m_malloc_statistic{std::move(malloc_statistics)}
+benchmark_plot_generator::benchmark_plot_generator(std::vector<benchmark_statistics> statistics_of_benchmark) :
+    m_statistics{std::move(statistics_of_benchmark)}
 {}
 
 void benchmark_plot_generator::generate_matlab_plot() const {
@@ -16,8 +15,10 @@ void benchmark_plot_generator::generate_matlab_plot() const {
 
     std::ofstream output_file_string(string_stream_title_file.str());
 
-    auto pool_result_vec = m_pool_statistic.get_all_results();
-    auto malloc_result_vec = m_malloc_statistic.get_all_results();
+    auto pool_result_vec = std::find_if(m_statistics.begin(), m_statistics.end(), [] (const benchmark_statistics& statistic) { return statistic.get_total_identifier() == benchmark_statistics::statistics_recognition::memory_pool; })->get_all_results();
+    auto malloc_result_vec = std::find_if(m_statistics.begin(), m_statistics.end(), [] (const benchmark_statistics& statistics) { return statistics.get_total_identifier() == benchmark_statistics::statistics_recognition::memory_malloc; })->get_all_results();
+    auto mmap_result_vec = std::find_if(m_statistics.begin(), m_statistics.end(), [] (const benchmark_statistics& statistics) { return statistics.get_total_identifier() == benchmark_statistics::statistics_recognition::memory_mmap; })->get_all_results();
+    auto new_result_vec = std::find_if(m_statistics.begin(), m_statistics.end(), [] (const benchmark_statistics& statistics) { return statistics.get_total_identifier() == benchmark_statistics::statistics_recognition::memory_new; })->get_all_results();
 
     output_file_string << "%% ADVANCED_PROGRAMMING_CONCEPTS_ALLOCATOR\n\nmemory_sizes = [";
 
@@ -37,7 +38,19 @@ void benchmark_plot_generator::generate_matlab_plot() const {
         output_file_string << std::get<2>(single_statistic) << ((*std::prev(malloc_result_vec.end()) != single_statistic) ? "," : "");
     });
 
-    output_file_string << "];\n\nplot(memory_sizes, pool_time)\nhold on\nplot(memory_sizes, malloc_time)\n\ntitle(\"Execution time allocating memory\")\nxlabel(\"Number of runs\")\nylabel(\"Execution time allocating (milliseconds)\")\nlegend(\"MEMORY POOL\", \"MALLOC\")\n";
+    output_file_string << "];\nmmap_time = [";
+
+    std::for_each(mmap_result_vec.begin(), mmap_result_vec.end(), [&] (const std::tuple<std::string, std::size_t, double>& single_statistic) {
+        output_file_string << std::get<2>(single_statistic) << ((*std::prev(mmap_result_vec.end()) != single_statistic) ? "," : "");
+    });
+
+    output_file_string << "];\nnew_time = [";
+
+    std::for_each(new_result_vec.begin(), new_result_vec.end(), [&] (const std::tuple<std::string, std::size_t, double>& single_statistic) {
+        output_file_string << std::get<2>(single_statistic) << ((*std::prev(new_result_vec.end()) != single_statistic) ? "," : "");
+    });
+
+    output_file_string << "];\n\nplot(memory_sizes, pool_time)\nhold on\nplot(memory_sizes, malloc_time)\nplot(memory_sizes, mmap_time)\nplot(memory_sizes, new_time)\n\ntitle(\"Execution time allocating memory\")\nxlabel(\"Number of runs\")\nylabel(\"Execution time allocating (milliseconds)\")\nlegend(\"MEMORY POOL\", \"MALLOC\", \"MMAP\", \"NEW\")\n";
 
     output_file_string.close();
 }

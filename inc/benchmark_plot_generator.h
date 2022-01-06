@@ -11,13 +11,12 @@
 
 class benchmark_plot_generator {
 public:
-    benchmark_plot_generator(benchmark_statistics pool_statistics, benchmark_statistics malloc_statistics);
+    explicit benchmark_plot_generator(std::vector<benchmark_statistics> statistics_of_benchmark);
 
     void generate_matlab_plot() const;
 
 private:
-    benchmark_statistics m_pool_statistic;
-    benchmark_statistics m_malloc_statistic;
+    std::vector<benchmark_statistics> m_statistics;
 };
 
 #endif

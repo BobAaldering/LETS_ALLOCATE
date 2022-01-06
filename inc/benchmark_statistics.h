@@ -7,15 +7,22 @@
 
 class benchmark_statistics {
 public:
-    explicit benchmark_statistics(std::string identifier_benchmark_section);
+    enum class statistics_recognition {
+        memory_malloc,
+        memory_pool,
+        memory_mmap,
+        memory_new
+    };
+
+    explicit benchmark_statistics(const statistics_recognition& identifier_benchmark_section);
 
     void add_result(const std::tuple<std::string, std::size_t, double>& result_of_benchmark);
 
     [[nodiscard]] const std::vector<std::tuple<std::string, std::size_t, double>>& get_all_results() const;
-    [[nodiscard]] const std::string& get_total_identifier() const;
+    [[nodiscard]] const statistics_recognition& get_total_identifier() const;
 
 private:
-    std::string m_total_identifier;
+    statistics_recognition m_total_identifier;
     std::vector<std::tuple<std::string, std::size_t, double>> m_statistic_information;
 };
 

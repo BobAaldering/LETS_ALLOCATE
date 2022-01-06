@@ -8,7 +8,7 @@ void allocator_tester::pool_validate_int() {
     std::vector<chunk<int>*> integer_vec_allocated{};
 
     for (const auto& single_number : {1, 2, 3, 4, 5}) {
-        auto chunk_of_data = allocator.get_memory();
+        auto chunk_of_data = allocator.allocate();
         chunk_of_data->m_data = single_number;
         integer_vec_allocated.push_back(chunk_of_data);
     }
@@ -19,10 +19,10 @@ void allocator_tester::pool_validate_int() {
     ASSERT_EQ(4, integer_vec_allocated[3]->m_data, "The expected value is 4!")
     ASSERT_EQ(5, integer_vec_allocated[4]->m_data, "The expected value is 5!")
 
-    allocator.back_memory(integer_vec_allocated.back());
+    allocator.deallocate(integer_vec_allocated.back());
     integer_vec_allocated.pop_back();
 
-    allocator.back_memory(integer_vec_allocated.back());
+    allocator.deallocate(integer_vec_allocated.back());
     integer_vec_allocated.pop_back();
 
     ASSERT_EQ(1, integer_vec_allocated[0]->m_data, "The expected value is 1!")
@@ -30,7 +30,7 @@ void allocator_tester::pool_validate_int() {
     ASSERT_EQ(3, integer_vec_allocated[2]->m_data, "The expected value is 3!")
 
     for (const auto& single_number : {8, 9, 10}) {
-        auto chunk_of_data = allocator.get_memory();
+        auto chunk_of_data = allocator.allocate();
         chunk_of_data->m_data = single_number;
         integer_vec_allocated.push_back(chunk_of_data);
     }
@@ -50,7 +50,7 @@ void allocator_tester::pool_validate_double() {
     std::vector<chunk<double>*> double_vec_allocated{};
 
     for (const auto& single_number : {1.1, 2.1, 3.1, 4.1, 5.1}) {
-        auto chunk_of_data = allocator.get_memory();
+        auto chunk_of_data = allocator.allocate();
         chunk_of_data->m_data = single_number;
         double_vec_allocated.push_back(chunk_of_data);
     }
@@ -61,10 +61,10 @@ void allocator_tester::pool_validate_double() {
     ASSERT_EQ(4.1, double_vec_allocated[3]->m_data, "The expected value is 4.1!")
     ASSERT_EQ(5.1, double_vec_allocated[4]->m_data, "The expected value is 5.1!")
 
-    allocator.back_memory(double_vec_allocated.back());
+    allocator.deallocate(double_vec_allocated.back());
     double_vec_allocated.pop_back();
 
-    allocator.back_memory(double_vec_allocated.back());
+    allocator.deallocate(double_vec_allocated.back());
     double_vec_allocated.pop_back();
 
     ASSERT_EQ(1.1, double_vec_allocated[0]->m_data, "The expected value is 1.1!")
@@ -72,7 +72,7 @@ void allocator_tester::pool_validate_double() {
     ASSERT_EQ(3.1, double_vec_allocated[2]->m_data, "The expected value is 3.1!")
 
     for (const auto& single_number : {8.8, 9.8, 10.1}) {
-        auto chunk_of_data = allocator.get_memory();
+        auto chunk_of_data = allocator.allocate();
         chunk_of_data->m_data = single_number;
         double_vec_allocated.push_back(chunk_of_data);
     }
@@ -97,7 +97,7 @@ void allocator_tester::pool_validate_compound() {
     std::vector<chunk<task_compound>*> task_vec_allocated{};
 
     for (const auto& single_task : {task_compound{1, "Alice"}, task_compound{4, "Bob"}, task_compound{1, "Eve"}, task_compound{7, "Sam"}, task_compound{9, "Robert"}}) {
-        auto chunk_of_data = allocator.get_memory();
+        auto chunk_of_data = allocator.allocate();
         chunk_of_data->m_data = single_task;
         task_vec_allocated.push_back(chunk_of_data);
     }
@@ -114,10 +114,10 @@ void allocator_tester::pool_validate_compound() {
     ASSERT_EQ(7, task_vec_allocated[3]->m_data.m_priority, "The expected value is 7!")
     ASSERT_EQ(9, task_vec_allocated[4]->m_data.m_priority, "The expected value is 9!")
 
-    allocator.back_memory(task_vec_allocated.back());
+    allocator.deallocate(task_vec_allocated.back());
     task_vec_allocated.pop_back();
 
-    allocator.back_memory(task_vec_allocated.back());
+    allocator.deallocate(task_vec_allocated.back());
     task_vec_allocated.pop_back();
 
     ASSERT_EQ("Alice", task_vec_allocated[0]->m_data.m_person_to_task, "The expected value is 'Alice'!")
@@ -129,7 +129,7 @@ void allocator_tester::pool_validate_compound() {
     ASSERT_EQ(1, task_vec_allocated[2]->m_data.m_priority, "The expected value is 1!")
 
     for (const auto& single_task : {task_compound{11, "John"}, task_compound{44, "Gina"}, task_compound{11, "Jade"}}) {
-        auto chunk_of_data = allocator.get_memory();
+        auto chunk_of_data = allocator.allocate();
         chunk_of_data->m_data = single_task;
         task_vec_allocated.push_back(chunk_of_data);
     }

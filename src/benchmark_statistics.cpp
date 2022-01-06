@@ -1,7 +1,7 @@
 #include "benchmark_statistics.h"
 
-benchmark_statistics::benchmark_statistics(std::string identifier_benchmark_section) :
-    m_total_identifier{std::move(identifier_benchmark_section)},
+benchmark_statistics::benchmark_statistics(const statistics_recognition &identifier_benchmark_section) :
+    m_total_identifier{identifier_benchmark_section},
     m_statistic_information{}
 {}
 
@@ -13,6 +13,6 @@ const std::vector<std::tuple<std::string, std::size_t, double>> &benchmark_stati
     return m_statistic_information;
 }
 
-const std::string &benchmark_statistics::get_total_identifier() const {
+const benchmark_statistics::statistics_recognition &benchmark_statistics::get_total_identifier() const {
     return m_total_identifier;
 }

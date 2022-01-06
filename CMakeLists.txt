@@ -10,12 +10,12 @@ target_sources(${target}
         PRIVATE
         main.cpp # The main file of the project.
 
-        ./inc/allocator.h # Include this header file, due to that it is a template.
-
         ./inc/pool_allocator.h # Include this header file, due to that it is a template.
         ./inc/block_allocator.h # Include this header file, due to that it is a template.
         ./inc/chunk_list.h # Include this header file, due to that it is is a template.
         ./inc/malloc_allocator.h # Include this header file, due to that it is a template.
+        ./inc/mmap_allocator.h # Include this header file, due to that it is a template.
+        ./inc/new_allocator.h # Include this header file, due to that it is a template.
 
         ./src/allocator_tester.cpp # The source file for the tester.
 

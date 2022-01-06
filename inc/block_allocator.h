@@ -18,16 +18,17 @@ private:
 
 template<typename T>
 [[maybe_unused]] T *block_allocator<T>::allocate(std::size_t number_of_elements) {
-    if (auto* allocated_memory = reinterpret_cast<T*>(mmap(nullptr, number_of_elements * sizeof(T), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0))) {
-        return allocated_memory;
-    }
+    auto* allocated_memory = mmap(nullptr, number_of_elements * sizeof(T), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
 
-    return nullptr;
+    if (allocated_memory == MAP_FAILED)
+        throw std::bad_alloc();
+
+    return reinterpret_cast<T*>(allocated_memory);
 }
 
 template<typename T>
 [[maybe_unused]] void block_allocator<T>::deallocate(T *memory, std::size_t number_of_elements) noexcept {
-    if (munmap(memory, number_of_elements))
+    if (munmap(memory, number_of_elements * sizeof(T)))
         std::cerr << "Deallocating memory failed!" << std::endl;
 }
 
