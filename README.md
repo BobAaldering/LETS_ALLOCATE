@@ -35,7 +35,7 @@ plot(memory_sizes, new_time)
 
 title("Execution time allocating memory")
 xlabel("Number of runs")
-ylabel("Execution time allocating (milliseconds)")
+ylabel("Execution time allocating (microseconds)")
 legend("MEMORY POOL", "MALLOC", "MMAP", "NEW")
 ```
 
