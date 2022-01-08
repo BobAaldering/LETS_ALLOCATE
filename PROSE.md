@@ -9,6 +9,10 @@ Content:
 | - + Importance of allocators
 | - + General goal of this prose
 + Obtaining memory from your operating system
+| - + Memory management
+| - + Different types of memory
+| - + Contiguous memory allocation
+| - + The allocation of memory
 ```
 
 ## Introduction
@@ -92,16 +96,20 @@ To allocate the best memory and distribute it correctly, an operating system use
 
 There are two types of memory in your computer. The first type of memory is main memory. This is occupied by your operating system, which in turn is occupied by the kernel. In addition, the main memory also consists of the 'user space', in which the data of executed programs is stored. To execute a program, it is moved from secondary memory to primary memory to which the program is executed. As a result, processes, often referred to as programs for convenience, are moved from secondary memory to primary memory when the program needs to be executed. When the output is ready, it is moved back to secondary memory. Multiple programs may be running in main memory at the same time. The image below provides an explanation of how processes switch memory.
 
-<p align="center">
-<img src="doc/IMG_1_MEM_SWAP.png" alt="Swapping processes from the main memory to the secondary memory (and vice versa)" width="300"/>
-</p>
+<div style="display: flex">
+<img style="margin: auto" src="doc/IMG_1_MEM_SWAP.png" alt="Swapping processes from the main memory to the secondary memory (and vice versa)" width="300"/>
+</div>
 
-_Figure 1: visualization how processes/programs are swapped between the main memory, and secondary memory._
+<div style="text-align: center;">
+Figure 1: visualization how processes/programs are swapped between the main memory, and secondary memory.
+</div>
 
 ## Contiguous memory allocation
 
 The main memory should oblige both the operating system and the different client processes.  Therefore, the allocation of memory becomes an important task in the operating system.  The memory is usually divided into two partitions: one for the resident operating system and one for the user processes. We normally need several user processes to reside in memory simultaneously. Therefore, we need to consider how to allocate available memory to the processes that are in the input queue waiting to be brought into memory. In adjacent memory allotment, each process is contained in a single contiguous segment of memory.
 
 ## The allocation of memory
+
+To gain proper memory utilization, memory allocation must be allocated efficient manner. One of the simplest methods for allocating memory is to divide memory into several fixed-sized partitions and each partition contains exactly one process. Thus, the degree of multiprogramming is obtained by the number of partitions. 
 
 
