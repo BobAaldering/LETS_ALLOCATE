@@ -17,7 +17,7 @@ template <typename T>
 class malloc_allocator {
 public:
     /// You must specify this type definition within an allocator. It is an value type.
-    [[maybe_unused]] T value_type;
+    [[maybe_unused]] typedef T value_type;
 
     /// This is the constructor of the 'malloc_allocator' class. It is a default constructor.
     malloc_allocator() = default;
