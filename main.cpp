@@ -3,10 +3,6 @@
 #include "benchmark_plot_generator.h" // Include here all the 'benchmark_plot_generator' facilities.
 
 int main() {
-    // Why testing, and what is the difference? Check: https://stackoverflow.com/questions/12545044/memory-pool-vs-malloc and https://en.wikipedia.org/wiki/Memory_pool
-    // Why is programming teasing me... https://en.cppreference.com/w/cpp/memory/allocator/allocate
-    // Another nice information: https://www.codetd.com/en/article/12255921 and https://blog.feabhas.com/2019/03/thanks-for-the-memory-allocator/
-
     // --- TEST SECTION --- //
     allocator_tester::pool_validate_int(); // Validate the memory pool allocator with integers.
     allocator_tester::pool_validate_double(); // Validate the memory pool allocator with doubles.
