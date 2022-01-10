@@ -12,6 +12,10 @@ An explanation of the topic follows, in which the complex problem surrounding al
 To give various applications, code snippets are also given, where explanation is also given. 
 In addition to theoretical aspects related to this subject, you will also see applications, to which all data can of course be better processed by yourself.
 
+## Presentation
+
+In addition to the prose, a presentation was also given. This can be found [here](doc/ppt/APC_TOPIC_2_ALLOCATORS.pptx). For more clarification: it is given in the folder `doc/ppt`. This presentation provides an introduction to this topic and identifies applications. In addition, the most relevant points of the subject are discussed.
+
 ## How the program works
 
 Various allocators have been written for this program. For example, you have several allocators that use `malloc` and `::operator new`. There is also an allocator that uses `mmap`. By implementing these allocators, a comparison can eventually be made, together with the written memory pool allocator. A benchmark is used to determine which allocator can allocate the fastest memory.
