@@ -26,7 +26,7 @@ target_sources(${target}
 
 include_directories(./inc) # Instruct the compiler where to look for the given header files within this project.
 
-target_compile_features(${target} PRIVATE cxx_std_23) # We are using the newest language standards, so C++23.
+target_compile_features(${target} PRIVATE cxx_std_20) # We are using the newest language standards, so C++23.
 set_target_properties(${target} PROPERTIES CXX_EXTENSIONS OFF) # Turn of compiler specific language extensions.
 
 # Set the options for GNU-linke compilers:
