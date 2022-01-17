@@ -1,3 +1,5 @@
+[Build with CMake on Ubuntu latest](https://github.com/BobAaldering/LETS_ALLOCATE/actions/workflows/cmake.yml/badge.svg)
+
 # Let's allocate!
 #### By: Bob Aaldering (492152) and Nian Luisman (496439)
 
